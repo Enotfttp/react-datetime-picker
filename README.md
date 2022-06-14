@@ -20,7 +20,7 @@ npm i @tootsieroll/react-datetime-picker
 
 ```TSX
 
-import DateTimePicker from '@tootsieroll/react-datetime-picker';
+import DateTimePicker from '@Enotfttp/react-datetime-picker';
 
 ..........
 
