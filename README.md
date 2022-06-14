@@ -12,7 +12,7 @@
 
 ```bash
 
-npm i @d_lepahhin/react-datetime-picker
+npm i @d_lepahin/react-datetime-picker
 
 ```
 
