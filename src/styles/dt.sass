@@ -1,4 +1,12 @@
 @import 'variables'
+.dt-bg
+  position: absolute
+  width: 100%
+  right: 0
+  top: 0
+  height: 100%
+  background: rgba(0, 0, 0, 0.8)
+  z-index: 9999
 \:root
   +color-scheme
 .dt
@@ -20,7 +28,7 @@
     background-color: var(--dt-picker-bg)
     box-shadow: rem(0px 1px 3px) rgba(0, 0, 0, 0.1)
     padding: rem(16px)
-    z-index: 10
+    z-index: 99999999999
     &__content
       display: flex
       justify-content: space-between
@@ -54,7 +62,6 @@
     padding: rem(4px 6px)
     &--blue
       color: var(--dt-button)
-
 
 @import "icon"
 @import "field"

@@ -81,36 +81,39 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         setVal(value);
     }, [value]);
     return (
-        <div className={'dt' + (className ? ' ' + className : '')} ref={ref}>
-            <div className={'dt-input-box'} onClick={handleOpen}>
-                <Field {...props} meta={meta} value={val} pickerType={pickerType} placeholder={placeholder} />
-                <div
-                    className={
-                        'dt-input-icon' +
-                        (meta && meta.error ? ' dt-input-icon--error' : '') +
-                        (meta && !meta.error && !!val ? ' dt-input-icon--success' : '')
-                    }
-                >
-                    {pickerType === 'time' ? (
-                        <Icon id={clock.id} viewBox={clock.viewBox} />
-                    ) : (
-                        <Icon id={calendar.id} viewBox={calendar.viewBox} />
-                    )}
+        <>
+            <div className={'dt' + (className ? ' ' + className : '')} ref={ref}>
+                <div className={'dt-input-box'} onClick={handleOpen}>
+                    <Field {...props} meta={meta} value={val} pickerType={pickerType} placeholder={placeholder} />
+                    <div
+                        className={
+                            'dt-input-icon' +
+                            (meta && meta.error ? ' dt-input-icon--error' : '') +
+                            (meta && !meta.error && !!val ? ' dt-input-icon--success' : '')
+                        }
+                    >
+                        {pickerType === 'time' ? (
+                            <Icon id={clock.id} viewBox={clock.viewBox} />
+                        ) : (
+                            <Icon id={calendar.id} viewBox={calendar.viewBox} />
+                        )}
+                    </div>
                 </div>
+                {isOpen && (
+                    <PickerBox
+                        startYear={startYear}
+                        endYear={endYear}
+                        value={val}
+                        handleClose={handleClose}
+                        handleChange={handleChange}
+                        handleReset={handleReset}
+                        placeholder={placeholder}
+                        pickerType={pickerType}
+                    />
+                )}
             </div>
-            {isOpen && (
-                <PickerBox
-                    startYear={startYear}
-                    endYear={endYear}
-                    value={val}
-                    handleClose={handleClose}
-                    handleChange={handleChange}
-                    handleReset={handleReset}
-                    placeholder={placeholder}
-                    pickerType={pickerType}
-                />
-            )}
-        </div>
+            {isOpen && <div className={'dt-bg'}></div>}
+        </>
     );
 };
 DateTimePicker.defaultProps = {
