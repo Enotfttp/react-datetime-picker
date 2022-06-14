@@ -12,7 +12,7 @@
 
 ```bash
 
-npm i @Enotfttp/react-datetime-picker
+npm i @d_lepahhin/react-datetime-picker
 
 ```
 
@@ -20,7 +20,7 @@ npm i @Enotfttp/react-datetime-picker
 
 ```TSX
 
-import DateTimePicker from '@Enotfttp/react-datetime-picker';
+import DateTimePicker from '@d_lepahin/react-datetime-picker';
 
 ..........
 
