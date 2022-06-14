@@ -1,8 +1,8 @@
 {
-  "name": "@tootsieroll/react-datetime-picker",
+  "name": "@Enotfttp/react-datetime-picker",
   "version": "0.4.4",
   "description": "simple datetime picker",
-  "repository": "tootsieroll/react-datetime-picker",
+  "repository": "Enotfttp/react-datetime-picker",
   "main": "dist/index.js",
   "source": "src/index.tsx",
   "scripts": {
@@ -10,7 +10,7 @@
     "watch": "webpack -w",
     "build": "webpack",
     "build-demo": "webpack --config demo/webpack.config.js",
-    "deploy-demo": "gh-pages -d demo/ -r https://github.com/tootsieroll/react-datetime-picker.git",
+    "deploy-demo": "gh-pages -d demo/ -r https://github.com/Enotfttp/react-datetime-picker.git",
     "test": ""
   },
   "engines": {

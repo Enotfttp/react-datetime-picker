@@ -12,7 +12,7 @@
 
 ```bash
 
-npm i @tootsieroll/react-datetime-picker
+npm i @Enotfttp/react-datetime-picker
 
 ```
 
@@ -20,7 +20,7 @@ npm i @tootsieroll/react-datetime-picker
 
 ```TSX
 
-import DateTimePicker from '@tootsieroll/react-datetime-picker';
+import DateTimePicker from '@Enotfttp/react-datetime-picker';
 
 ..........
 
@@ -53,4 +53,4 @@ import DateTimePicker from '@tootsieroll/react-datetime-picker';
 
 ## Лицензия
 
-© [MIT](https://github.com/tootsieroll/react-datetime-picker/blob/master/LICENSE)
+© [MIT](https://github.com/Enotfttp/react-datetime-picker/blob/master/LICENSE)
