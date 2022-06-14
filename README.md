@@ -12,7 +12,7 @@
 
 ```bash
 
-npm i @Enotfttp/react-datetimepicker
+npm i @Enotfttp/react-datetime-picker
 
 ```
 
