@@ -1,6 +1,6 @@
 {
   "name": "@d_lepahin/react-datetime-picker",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "simple datetime picker",
   "repository": "Enotfttp/react-datetime-picker",
   "main": "dist/index.js",
