@@ -112,7 +112,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                     />
                 )}
             </div>
-            {isOpen && <div className={'dt-bg'}></div>}
+            {isOpen && <div className={'dt-bg'} onClick={() => setOpen(false)}></div>}
         </>
     );
 };
