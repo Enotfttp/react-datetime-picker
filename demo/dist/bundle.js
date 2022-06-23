@@ -67,19 +67,17 @@ var Field = function Field(_ref) {
   }
 
   var dateToString = function dateToString(timestamp) {
-    if (value) {
+    if (value && value !== 0) {
       if (pickerType === 'time') {
         return new Date(timestamp).toLocaleTimeString('ru', options);
       } else {
         return new Date(value).toLocaleDateString('ru', options);
       }
     } else if (pickerType === 'time') {
-      return new Date(Date.now()).toLocaleTimeString('ru', options);
+      return new Date().toLocaleTimeString('ru', options);
     } else {
-      return new Date(Date.now()).toLocaleDateString('ru', options);
+      return new Date().toLocaleDateString('ru', options);
     }
-
-    return '';
   };
 
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(value ? dateToString(value) : ''),
@@ -329,7 +327,7 @@ var PickerBox = function PickerBox(_ref) {
   var end = endYear === 'current' ? new Date().getFullYear() : endYear;
   var timestamp = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(function () {
     var result;
-    var nowDate = value ? value : new Date().getTime();
+    var nowDate = value && value !== 0 ? value : new Date().getTime();
     var nowYear = new Date(nowDate).getFullYear();
     result = nowDate;
     if (startYear && startYear !== 'current' && startYear > nowYear) result = new Date(nowDate).setFullYear(startYear);

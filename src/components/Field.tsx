@@ -34,7 +34,7 @@ const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, ...
             break;
     }
     const dateToString = (timestamp: number) => {
-        if (value) {
+        if (value && value !== 0) {
             if (pickerType === 'time') {
                 return new Date(timestamp).toLocaleTimeString('ru', options);
             } else {

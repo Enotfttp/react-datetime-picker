@@ -29,7 +29,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
     const end = endYear === 'current' ? new Date().getFullYear() : endYear;
     const timestamp = React.useMemo(() => {
         let result: number;
-        const nowDate = value ? value : new Date().getTime();
+        const nowDate = value && value !== 0 ? value : new Date().getTime();
         const nowYear = new Date(nowDate).getFullYear();
         result = nowDate;
         if (startYear && startYear !== 'current' && startYear > nowYear)
