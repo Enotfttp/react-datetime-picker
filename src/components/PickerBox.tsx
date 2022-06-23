@@ -69,7 +69,13 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                     <button className={'dt-picker-button'} onClick={handleReset}>
                         Сбросить
                     </button>
-                    <button className={'dt-picker-button dt-picker-button--blue'} onClick={() => handleClose(true)}>
+                    <button
+                        className={'dt-picker-button dt-picker-button--blue'}
+                        onClick={() => {
+                            if (!value) handleChange(new Date().getTime());
+                            handleClose(true);
+                        }}
+                    >
                         Готово
                     </button>
                 </div>
