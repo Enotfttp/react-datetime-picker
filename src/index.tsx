@@ -33,7 +33,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     endYear,
     ...props
 }) => {
-    const [val, setVal] = React.useState<number | undefined>(value);
+    const [val, setVal] = React.useState<number | undefined>(value === 0 ? Date.now() : value);
     const [isOpen, setOpen] = React.useState<boolean>(false);
     const ref = React.useRef<HTMLDivElement>(null);
     if (!placeholder) {
