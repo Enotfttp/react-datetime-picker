@@ -40,7 +40,13 @@ const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, ...
             } else {
                 return new Date(value).toLocaleDateString('ru', options);
             }
-        } else return '';
+        } else if (pickerType === 'time') {
+            return new Date().toLocaleTimeString('ru', options);
+        } else {
+            return new Date().toLocaleDateString('ru', options);
+        }
+
+        return '';
     };
     const [val, setVal] = React.useState<string>(value ? dateToString(value) : '');
     const [state, setState] = React.useState<any>({ hasLabel: !!value, touched: false });

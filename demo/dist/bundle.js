@@ -73,7 +73,13 @@ var Field = function Field(_ref) {
       } else {
         return new Date(value).toLocaleDateString('ru', options);
       }
-    } else return '';
+    } else if (pickerType === 'time') {
+      return new Date(Date.now()).toLocaleTimeString('ru', options);
+    } else {
+      return new Date(Date.now()).toLocaleDateString('ru', options);
+    }
+
+    return '';
   };
 
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(value ? dateToString(value) : ''),
