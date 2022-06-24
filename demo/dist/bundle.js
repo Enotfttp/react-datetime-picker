@@ -78,6 +78,8 @@ var Field = function Field(_ref) {
     } else {
       return new Date().toLocaleDateString('ru', options);
     }
+
+    return '';
   };
 
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(value ? dateToString(value) : ''),
@@ -377,7 +379,8 @@ var PickerBox = function PickerBox(_ref) {
   }, "\u0421\u0431\u0440\u043E\u0441\u0438\u0442\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     className: 'dt-picker-button dt-picker-button--blue',
     onClick: function onClick() {
-      return handleClose(true);
+      if (!value) handleChange(new Date().getTime());
+      handleClose(true);
     }
   }, "\u0413\u043E\u0442\u043E\u0432\u043E"))));
 };
@@ -608,7 +611,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
       endYear = _ref.endYear,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(value),
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(value === 0 ? Date.now() : value),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       val = _React$useState2[0],
       setVal = _React$useState2[1];
@@ -648,6 +651,10 @@ var DateTimePicker = function DateTimePicker(_ref) {
   };
 
   var handleOpen = function handleOpen() {
+    if (!value) {
+      setVal(Date.now());
+    }
+
     setOpen(true);
     if (typeof onOpen === 'function') onOpen(ref.current);
   };
