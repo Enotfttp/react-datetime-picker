@@ -59,6 +59,9 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         }
     };
     const handleOpen = () => {
+        if (!value) {
+            setVal(Date.now());
+        }
         setOpen(true);
         if (typeof onOpen === 'function') onOpen(ref.current);
     };
