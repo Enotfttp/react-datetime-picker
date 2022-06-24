@@ -21,10 +21,10 @@ interface DateTimePickerProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
-    // value,
+    value,
     pickerType,
     placeholder,
-    // onChange,
+    onChange,
     onClose,
     onOpen,
     className,
@@ -33,7 +33,6 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     endYear,
     ...props
 }) => {
-    const [value, onChange] = React.useState(0);
     const [val, setVal] = React.useState<number | undefined>(value);
     const [isOpen, setOpen] = React.useState<boolean>(false);
     const ref = React.useRef<HTMLDivElement>(null);
