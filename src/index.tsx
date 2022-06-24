@@ -1,11 +1,11 @@
 import React, { InputHTMLAttributes } from 'react';
 import Field from './components/Field';
 import Icon from './components/Icon';
-import './styles/dt.sass';
+import PickerBox from './components/PickerBox';
 import calendar from './images/calendar.svg';
 import clock from './images/clock.svg';
+import './styles/dt.sass';
 import { getScrollableParent } from './utils';
-import PickerBox from './components/PickerBox';
 
 interface DateTimePickerProps extends InputHTMLAttributes<HTMLInputElement> {
     value?: number;
@@ -21,10 +21,10 @@ interface DateTimePickerProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
-    value,
+    // value,
     pickerType,
     placeholder,
-    onChange,
+    // onChange,
     onClose,
     onOpen,
     className,
@@ -33,7 +33,8 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     endYear,
     ...props
 }) => {
-    const [val, setVal] = React.useState<number | undefined>(value === 0 ? Date.now() : value);
+    const [value, onChange] = React.useState(0);
+    const [val, setVal] = React.useState<number | undefined>(value);
     const [isOpen, setOpen] = React.useState<boolean>(false);
     const ref = React.useRef<HTMLDivElement>(null);
     if (!placeholder) {
@@ -81,7 +82,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         }
     }, [isOpen, ref?.current]);
     React.useEffect(() => {
-        setVal(value);
+        if (value) setVal(value);
     }, [value]);
     return (
         <>

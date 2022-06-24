@@ -564,12 +564,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _components_Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Field */ "./src/components/Field.tsx");
 /* harmony import */ var _components_Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Icon */ "./src/components/Icon.tsx");
-/* harmony import */ var _styles_dt_sass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles/dt.sass */ "./src/styles/dt.sass");
+/* harmony import */ var _components_PickerBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/PickerBox */ "./src/components/PickerBox.tsx");
 /* harmony import */ var _images_calendar_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./images/calendar.svg */ "./src/images/calendar.svg");
 /* harmony import */ var _images_clock_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./images/clock.svg */ "./src/images/clock.svg");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils */ "./src/utils/index.ts");
-/* harmony import */ var _components_PickerBox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/PickerBox */ "./src/components/PickerBox.tsx");
-var _excluded = ["value", "pickerType", "placeholder", "onChange", "onClose", "onOpen", "className", "meta", "startYear", "endYear"];
+/* harmony import */ var _styles_dt_sass__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/dt.sass */ "./src/styles/dt.sass");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./src/utils/index.ts");
+var _excluded = ["pickerType", "placeholder", "onClose", "onOpen", "className", "meta", "startYear", "endYear"];
 
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -599,10 +599,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 var DateTimePicker = function DateTimePicker(_ref) {
-  var value = _ref.value,
-      pickerType = _ref.pickerType,
+  var pickerType = _ref.pickerType,
       placeholder = _ref.placeholder,
-      onChange = _ref.onChange,
       onClose = _ref.onClose,
       onOpen = _ref.onOpen,
       className = _ref.className,
@@ -611,15 +609,20 @@ var DateTimePicker = function DateTimePicker(_ref) {
       endYear = _ref.endYear,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(value === 0 ? Date.now() : value),
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(0),
       _React$useState2 = _slicedToArray(_React$useState, 2),
-      val = _React$useState2[0],
-      setVal = _React$useState2[1];
+      value = _React$useState2[0],
+      onChange = _React$useState2[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState(false),
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState(value),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
-      isOpen = _React$useState4[0],
-      setOpen = _React$useState4[1];
+      val = _React$useState4[0],
+      setVal = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0__.useState(false),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      isOpen = _React$useState6[0],
+      setOpen = _React$useState6[1];
 
   var ref = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
 
@@ -667,15 +670,15 @@ var DateTimePicker = function DateTimePicker(_ref) {
     return setVal(value);
   };
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0__.useState(null),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      locked = _React$useState6[0],
-      setLocked = _React$useState6[1];
+  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0__.useState(null),
+      _React$useState8 = _slicedToArray(_React$useState7, 2),
+      locked = _React$useState8[0],
+      setLocked = _React$useState8[1];
 
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     if (ref && ref.current) {
       if (isOpen) {
-        var l = (0,_utils__WEBPACK_IMPORTED_MODULE_6__.getScrollableParent)(ref.current.parentNode);
+        var l = (0,_utils__WEBPACK_IMPORTED_MODULE_7__.getScrollableParent)(ref.current.parentNode);
         if (l) l.style.overflowY = 'hidden';
         setLocked(l);
       } else {
@@ -685,7 +688,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
     }
   }, [isOpen, ref === null || ref === void 0 ? void 0 : ref.current]);
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
-    setVal(value);
+    if (value) setVal(value);
   }, [value]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt' + (className ? ' ' + className : ''),
@@ -706,7 +709,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Icon__WEBPACK_IMPORTED_MODULE_2__["default"], {
     id: _images_calendar_svg__WEBPACK_IMPORTED_MODULE_4__["default"].id,
     viewBox: _images_calendar_svg__WEBPACK_IMPORTED_MODULE_4__["default"].viewBox
-  }))), isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_PickerBox__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }))), isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_PickerBox__WEBPACK_IMPORTED_MODULE_3__["default"], {
     startYear: startYear,
     endYear: endYear,
     value: val,
