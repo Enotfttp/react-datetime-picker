@@ -57,7 +57,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                     />
                 ))}
             </div>
-            <div className={'dt-picker-box__footer'}>
+            {/*<div className={'dt-picker-box__footer'}>
                 <div className={'dt-picker-box__footer_left'}>
                     {(!endYear || endYear === 'current' || endYear >= new Date().getFullYear()) &&
                         pickerType !== 'time' && (
@@ -82,7 +82,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                         Готово
                     </button>
                 </div>
-            </div>
+            </div>*/}
         </div>
     );
 };

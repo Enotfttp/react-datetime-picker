@@ -362,27 +362,7 @@ var PickerBox = function PickerBox(_ref) {
       startYear: start,
       endYear: end
     });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: 'dt-picker-box__footer'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: 'dt-picker-box__footer_left'
-  }, (!endYear || endYear === 'current' || endYear >= new Date().getFullYear()) && pickerType !== 'time' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: 'dt-picker-button',
-    onClick: function onClick() {
-      return handleChange(new Date().getTime());
-    }
-  }, "\u0421\u0435\u0433\u043E\u0434\u043D\u044F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: 'dt-picker-box__footer_right'
-  }, pickerType !== 'time' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: 'dt-picker-button',
-    onClick: handleReset
-  }, "\u0421\u0431\u0440\u043E\u0441\u0438\u0442\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: 'dt-picker-button dt-picker-button--blue',
-    onClick: function onClick() {
-      if (!value) handleChange(new Date().getTime());
-      handleClose(true);
-    }
-  }, "\u0413\u043E\u0442\u043E\u0432\u043E"))));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (PickerBox);
