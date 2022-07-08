@@ -657,7 +657,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
   };
 
   var handleOpen = function handleOpen(event) {
-    if (window.innerWidth - event.pageX < 300) {
+    if (window.innerWidth - event.pageX < 100) {
       setPos('right');
     }
 

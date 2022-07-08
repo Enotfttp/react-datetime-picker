@@ -60,7 +60,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         }
     };
     const handleOpen = (event: any) => {
-        if (window.innerWidth - event.pageX < 300) {
+        if (window.innerWidth - event.pageX < 100) {
             setPos('right');
         }
         if (!value) {
