@@ -36,6 +36,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     const [val, setVal] = React.useState<number | undefined>(value);
     const [isOpen, setOpen] = React.useState<boolean>(false);
     const ref = React.useRef<HTMLDivElement>(null);
+    const [pos, setPos] = React.useState('left');
     if (!placeholder) {
         switch (pickerType) {
             case 'date':
@@ -58,7 +59,10 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
             onChange(date);
         }
     };
-    const handleOpen = () => {
+    const handleOpen = (event: any) => {
+        if (window.innerWidth - event.pageX < 300) {
+            setPos('right');
+        }
         if (!value) {
             setVal(Date.now());
         }
@@ -86,7 +90,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     return (
         <>
             <div className={'dt' + (className ? ' ' + className : '')} ref={ref}>
-                <div className={'dt-input-box'} onClick={handleOpen}>
+                <div className={'dt-input-box'} onClick={(event) => handleOpen(event)}>
                     <Field {...props} meta={meta} value={val} pickerType={pickerType} placeholder={placeholder} />
                     <div
                         className={
@@ -112,6 +116,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                         handleReset={handleReset}
                         placeholder={placeholder}
                         pickerType={pickerType}
+                        position={pos}
                     />
                 )}
             </div>

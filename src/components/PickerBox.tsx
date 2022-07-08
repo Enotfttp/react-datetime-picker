@@ -9,6 +9,7 @@ interface PickerBoxProps {
     placeholder?: string;
     startYear?: number | 'current';
     endYear?: number | 'current';
+    position: string;
     handleChange: (v: number) => void;
     handleClose: (v?: boolean) => void;
     handleReset: () => void;
@@ -23,6 +24,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
     startYear,
     endYear,
     value,
+    position,
 }) => {
     const pickers: Array<'date' | 'time'> = pickerType === 'datetime' ? ['date', 'time'] : [pickerType];
     const start = startYear === 'current' ? new Date().getFullYear() : startYear;
@@ -38,7 +40,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
         return result;
     }, [startYear, endYear, value]);
     return (
-        <div className={'dt-picker-box'}>
+        <div className={`dt-picker-box dt-picker-box-${position}`}>
             <div className={'dt-picker-box__header'}>
                 <div className={'dt-picker-close dt-input-icon'} onClick={() => handleClose(false)}>
                     <Icon id={close.id} viewBox={close.viewBox} name={'small'} />

@@ -10,7 +10,6 @@
 \:root
   +color-scheme
 .dt
-  min-width: 300px
   margin-bottom: rem(40px)
   color: var(--dt-accent-text)
   text-align: left
@@ -23,13 +22,17 @@
 .dt-picker
   &-box
     position: absolute
+    min-width: 300px
     top: 0
-    left: 0
-    right: 0
     background-color: var(--dt-picker-bg)
     box-shadow: rem(0px 1px 3px) rgba(0, 0, 0, 0.1)
     padding: rem(16px)
     z-index: 99999999999
+    &-right
+      right: 0
+    &-left
+      right: 0
+      left: 0
     &__content
       display: flex
       justify-content: space-between
