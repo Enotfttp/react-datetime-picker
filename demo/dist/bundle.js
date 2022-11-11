@@ -568,13 +568,20 @@ var DateTimePicker = function DateTimePicker(_ref) {
     if (typeof onOpen === 'function') onOpen(ref.current);
   };
   var handleBgClick = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
-    handleClose(true);
+    setOpen(false);
+    var date = val !== null && val !== void 0 ? val : new Date().getTime();
+    if (typeof onClose === 'function') {
+      onClose(ref.current);
+      setVal(date);
+      onChange(date);
+    }
   }, []);
   var handleChange = function handleChange(newValue) {
     return setVal(newValue);
   };
   var handleReset = function handleReset() {
-    return setVal(value);
+    setVal(value);
+    setOpen(false);
   };
   var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0__.useState(null),
     _React$useState8 = _slicedToArray(_React$useState7, 2),
