@@ -69,20 +69,13 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         setOpen(true);
         if (typeof onOpen === 'function') onOpen(ref.current);
     };
-    const handleBgClick = React.useCallback(() => {
-        setOpen(false);
-        const date = val ?? new Date().getTime();
-        if (typeof onClose === 'function') {
-            onClose(ref.current);
-            setVal(date);
-            onChange(date);
-        }
-    }, []);
+
     const handleChange = (newValue: number | undefined) => setVal(newValue);
     const handleReset = () => {
         setVal(value);
         setOpen(false);
     };
+
     const [locked, setLocked] = React.useState<HTMLElement | null>(null);
     React.useEffect(() => {
         if (ref && ref.current) {
@@ -96,9 +89,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
             }
         }
     }, [isOpen, ref?.current]);
-    React.useEffect(() => {
-        setVal(value);
-    }, [value]);
+
     return (
         <>
             <div className={'dt' + (className ? ' ' + className : '')} ref={ref}>
@@ -132,7 +123,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                     />
                 )}
             </div>
-            {isOpen && <div className={'dt-bg'} onClick={handleBgClick}></div>}
+            {isOpen && <div className={'dt-bg'} onClick={() => handleClose(true)}></div>}
         </>
     );
 };

@@ -567,15 +567,6 @@ var DateTimePicker = function DateTimePicker(_ref) {
     setOpen(true);
     if (typeof onOpen === 'function') onOpen(ref.current);
   };
-  var handleBgClick = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
-    setOpen(false);
-    var date = val !== null && val !== void 0 ? val : new Date().getTime();
-    if (typeof onClose === 'function') {
-      onClose(ref.current);
-      setVal(date);
-      onChange(date);
-    }
-  }, []);
   var handleChange = function handleChange(newValue) {
     return setVal(newValue);
   };
@@ -599,9 +590,6 @@ var DateTimePicker = function DateTimePicker(_ref) {
       }
     }
   }, [isOpen, ref === null || ref === void 0 ? void 0 : ref.current]);
-  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
-    setVal(value);
-  }, [value]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt' + (className ? ' ' + className : ''),
     ref: ref
@@ -635,7 +623,9 @@ var DateTimePicker = function DateTimePicker(_ref) {
     position: pos
   })), isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt-bg',
-    onClick: handleBgClick
+    onClick: function onClick() {
+      return handleClose(true);
+    }
   }));
 };
 DateTimePicker.defaultProps = {
