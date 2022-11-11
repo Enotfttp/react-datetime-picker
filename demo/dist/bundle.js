@@ -571,7 +571,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
     return setVal(newValue);
   };
   var handleReset = function handleReset() {
-    setVal(value);
+    setVal(undefined);
     setOpen(false);
   };
   var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0__.useState(null),

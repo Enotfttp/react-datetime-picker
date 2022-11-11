@@ -72,7 +72,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
 
     const handleChange = (newValue: number | undefined) => setVal(newValue);
     const handleReset = () => {
-        setVal(value);
+        setVal(undefined);
         setOpen(false);
     };
 
