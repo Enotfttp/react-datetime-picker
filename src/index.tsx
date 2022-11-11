@@ -63,12 +63,15 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         if (window.innerWidth - event.pageX < 200) {
             setPos('right');
         }
-        if (!value) {
+        if (!val) {
             setVal(Date.now());
         }
         setOpen(true);
         if (typeof onOpen === 'function') onOpen(ref.current);
     };
+    const handleBgClick = React.useCallback(() => {
+        handleClose();
+    }, []);
     const handleChange = (newValue: number | undefined) => setVal(newValue);
     const handleReset = () => setVal(value);
     const [locked, setLocked] = React.useState<HTMLElement | null>(null);
@@ -120,7 +123,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                     />
                 )}
             </div>
-            {isOpen && <div className={'dt-bg'} onClick={() => setOpen(false)}></div>}
+            {isOpen && <div className={'dt-bg'} onClick={handleBgClick}></div>}
         </>
     );
 };

@@ -561,12 +561,15 @@ var DateTimePicker = function DateTimePicker(_ref) {
     if (window.innerWidth - event.pageX < 200) {
       setPos('right');
     }
-    if (!value) {
+    if (!val) {
       setVal(Date.now());
     }
     setOpen(true);
     if (typeof onOpen === 'function') onOpen(ref.current);
   };
+  var handleBgClick = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
+    handleClose();
+  }, []);
   var handleChange = function handleChange(newValue) {
     return setVal(newValue);
   };
@@ -625,9 +628,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
     position: pos
   })), isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt-bg',
-    onClick: function onClick() {
-      return setOpen(false);
-    }
+    onClick: handleBgClick
   }));
 };
 DateTimePicker.defaultProps = {
