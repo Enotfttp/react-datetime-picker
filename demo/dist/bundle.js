@@ -568,7 +568,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
     if (typeof onOpen === 'function') onOpen(ref.current);
   };
   var handleBgClick = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
-    handleClose();
+    handleClose(true);
   }, []);
   var handleChange = function handleChange(newValue) {
     return setVal(newValue);

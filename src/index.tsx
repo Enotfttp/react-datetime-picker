@@ -70,7 +70,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         if (typeof onOpen === 'function') onOpen(ref.current);
     };
     const handleBgClick = React.useCallback(() => {
-        handleClose();
+        handleClose(true);
     }, []);
     const handleChange = (newValue: number | undefined) => setVal(newValue);
     const handleReset = () => setVal(value);
