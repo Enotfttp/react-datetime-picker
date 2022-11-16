@@ -573,6 +573,8 @@ var DateTimePicker = function DateTimePicker(_ref) {
   var handleReset = function handleReset() {
     setVal(undefined);
     setOpen(false);
+    onChange(undefined);
+    if (onClose) onClose(ref.current);
   };
   var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0__.useState(null),
     _React$useState8 = _slicedToArray(_React$useState7, 2),
