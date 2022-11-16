@@ -74,6 +74,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     const handleReset = () => {
         setVal(undefined);
         setOpen(false);
+        onChange(undefined);
     };
 
     const [locked, setLocked] = React.useState<HTMLElement | null>(null);
