@@ -61,9 +61,8 @@ var Field = function Field(_ref) {
     } else if (pickerType === 'time') {
       return new Date().toLocaleTimeString('ru', options);
     } else {
-      return new Date().toLocaleDateString('ru', options);
+      return '';
     }
-    return '';
   };
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(value ? dateToString(value) : ''),
     _React$useState2 = _slicedToArray(_React$useState, 2),
