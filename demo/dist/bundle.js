@@ -592,6 +592,9 @@ var DateTimePicker = function DateTimePicker(_ref) {
       }
     }
   }, [isOpen, ref === null || ref === void 0 ? void 0 : ref.current]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+    setVal(value);
+  }, [value]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt' + (className ? ' ' + className : ''),
     ref: ref
