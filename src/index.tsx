@@ -93,6 +93,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     }, [isOpen, ref?.current]);
     React.useEffect(() => {
         setVal(value);
+        onChange(value);
     }, [value]);
 
     return (
