@@ -56,7 +56,6 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
             const date = val ?? new Date().getTime();
             setVal(date);
             onChange(date);
-            console.log('date = ', date);
         }
         setOpen(false);
     };
@@ -95,7 +94,6 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
 
     React.useEffect(() => {
         setVal(value);
-        console.log('value = ', value);
     }, [value]);
 
     return (
