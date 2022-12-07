@@ -548,13 +548,13 @@ var DateTimePicker = function DateTimePicker(_ref) {
     }
   }
   var handleClose = function handleClose(applyChanges) {
-    setOpen(false);
     if (typeof onClose === 'function') onClose(ref.current);
     if (applyChanges && typeof onChange === 'function') {
       var date = val !== null && val !== void 0 ? val : new Date().getTime();
       setVal(date);
       onChange(date);
     }
+    setOpen(false);
   };
   var handleOpen = function handleOpen(event) {
     if (window.innerWidth - event.pageX < 200) {
@@ -588,9 +588,13 @@ var DateTimePicker = function DateTimePicker(_ref) {
       } else {
         if (locked) locked.style.overflowY = 'auto';
         setLocked(null);
+        console.log('value = ', value);
+        console.log('locked = ', locked);
+        console.log('isOpen = ', isOpen);
+        console.log('val = ', val);
+        if (!value && !locked) setVal(value);
       }
     }
-    if (!val) setVal(value);
   }, [isOpen, ref === null || ref === void 0 ? void 0 : ref.current, value]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt' + (className ? ' ' + className : ''),
