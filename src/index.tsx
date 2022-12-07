@@ -90,10 +90,6 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                 setLocked(null);
             }
         }
-        console.log('value = ', value);
-        console.log('locked = ', locked);
-        console.log('isOpen = ', isOpen);
-        console.log('val = ', val);
         if (!value && !locked) setVal(value);
     }, [isOpen, ref?.current, value]);
 
