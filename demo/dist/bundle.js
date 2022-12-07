@@ -588,13 +588,13 @@ var DateTimePicker = function DateTimePicker(_ref) {
       } else {
         if (locked) locked.style.overflowY = 'auto';
         setLocked(null);
-        console.log('value = ', value);
-        console.log('locked = ', locked);
-        console.log('isOpen = ', isOpen);
-        console.log('val = ', val);
-        if (!value && !locked) setVal(value);
       }
     }
+    console.log('value = ', value);
+    console.log('locked = ', locked);
+    console.log('isOpen = ', isOpen);
+    console.log('val = ', val);
+    if (!value && !locked) setVal(value);
   }, [isOpen, ref === null || ref === void 0 ? void 0 : ref.current, value]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt' + (className ? ' ' + className : ''),

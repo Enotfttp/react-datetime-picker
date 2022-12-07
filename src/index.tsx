@@ -88,13 +88,13 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
             } else {
                 if (locked) locked.style.overflowY = 'auto';
                 setLocked(null);
-                console.log('value = ', value)
-                console.log('locked = ', locked)
-                console.log('isOpen = ', isOpen)
-                console.log('val = ', val)
-                if (!value && !locked) setVal(value);
             }
         }
+        console.log('value = ', value);
+        console.log('locked = ', locked);
+        console.log('isOpen = ', isOpen);
+        console.log('val = ', val);
+        if (!value && !locked) setVal(value);
     }, [isOpen, ref?.current, value]);
 
     return (
