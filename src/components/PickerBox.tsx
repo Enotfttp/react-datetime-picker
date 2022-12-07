@@ -1,6 +1,6 @@
 import React from 'react';
-import Icon from './Icon';
 import close from '../images/close.svg';
+import Icon from './Icon';
 import Picker from './Picker';
 
 interface PickerBoxProps {

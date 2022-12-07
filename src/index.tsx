@@ -56,6 +56,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
             const date = val ?? new Date().getTime();
             setVal(date);
             onChange(date);
+            console.log('date = ', date);
         }
         setOpen(false);
     };
@@ -90,14 +91,12 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                 setLocked(null);
             }
         }
-        console.log('value =', value);
-        console.log('locked = ', locked);
-        console.log('val = ', val);
-        if (!value && !locked) {
-            console.log('test');
-            setVal(value);
-        }
-    }, [isOpen, ref?.current, value]);
+    }, [isOpen, ref?.current]);
+
+    React.useEffect(() => {
+        setVal(value);
+        console.log('value = ', value);
+    }, [value]);
 
     return (
         <>
