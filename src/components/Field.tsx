@@ -69,6 +69,7 @@ const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, ...
                 className={'dt-input'}
                 onFocus={() => setState({ hasLabel: true, touched: false })}
                 onBlur={(e) => setState({ hasLabel: !!e.target.value?.length, touched: true })}
+                data-qa={'dt_input'}
             />
             <label htmlFor={props.name} className={'dt-input-label'}>
                 {placeholder}

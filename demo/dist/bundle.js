@@ -101,7 +101,8 @@ var Field = function Field(_ref) {
         hasLabel: !!((_e$target$value = e.target.value) !== null && _e$target$value !== void 0 && _e$target$value.length),
         touched: true
       });
-    }
+    },
+    "data-qa": 'dt_input'
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
     htmlFor: props.name,
     className: 'dt-input-label'
@@ -261,8 +262,8 @@ var Picker = function Picker(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Icon */ "./src/components/Icon.tsx");
-/* harmony import */ var _images_close_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../images/close.svg */ "./src/images/close.svg");
+/* harmony import */ var _images_close_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../images/close.svg */ "./src/images/close.svg");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Icon */ "./src/components/Icon.tsx");
 /* harmony import */ var _Picker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Picker */ "./src/components/Picker.tsx");
 
 
@@ -299,9 +300,9 @@ var PickerBox = function PickerBox(_ref) {
     onClick: function onClick() {
       return handleClose(false);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    id: _images_close_svg__WEBPACK_IMPORTED_MODULE_2__["default"].id,
-    viewBox: _images_close_svg__WEBPACK_IMPORTED_MODULE_2__["default"].viewBox,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    id: _images_close_svg__WEBPACK_IMPORTED_MODULE_1__["default"].id,
+    viewBox: _images_close_svg__WEBPACK_IMPORTED_MODULE_1__["default"].viewBox,
     name: 'small'
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt-picker-title'
@@ -324,18 +325,21 @@ var PickerBox = function PickerBox(_ref) {
     className: 'dt-picker-button',
     onClick: function onClick() {
       return handleChange(new Date().getTime());
-    }
+    },
+    "data-qa": 'dt_btn-today'
   }, "\u0421\u0435\u0433\u043E\u0434\u043D\u044F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt-picker-box__footer_right'
   }, pickerType !== 'time' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     className: 'dt-picker-button',
-    onClick: handleReset
+    onClick: handleReset,
+    "data-qa": 'dt_btn-reset'
   }, "\u0421\u0431\u0440\u043E\u0441\u0438\u0442\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     className: 'dt-picker-button dt-picker-button--blue',
     onClick: function onClick() {
       if (!value) handleChange(new Date().getTime());
       handleClose(true);
-    }
+    },
+    "data-qa": 'dt_btn-done'
   }, "\u0413\u043E\u0442\u043E\u0432\u043E"))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (PickerBox);
@@ -467,7 +471,8 @@ var PickerGroup = function PickerGroup(_ref) {
   }, items.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       key: "item_".concat(index),
-      className: "dt-picker-item dt-picker-".concat(type, "__item") + (item === selected ? ' dt-picker-item--selected' : '')
+      className: "dt-picker-item dt-picker-".concat(type, "__item") + (item === selected ? ' dt-picker-item--selected' : ''),
+      "data-qa": "dt_time-item-".concat(index)
     }, item);
   })));
 };
@@ -590,12 +595,10 @@ var DateTimePicker = function DateTimePicker(_ref) {
         setLocked(null);
       }
     }
-    console.log('value = ', value);
-    console.log('locked = ', locked);
-    console.log('isOpen = ', isOpen);
-    console.log('val = ', val);
-    if (!value && !locked) setVal(value);
-  }, [isOpen, ref === null || ref === void 0 ? void 0 : ref.current, value]);
+  }, [isOpen, ref === null || ref === void 0 ? void 0 : ref.current]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+    setVal(value);
+  }, [value]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'dt' + (className ? ' ' + className : ''),
     ref: ref

@@ -63,14 +63,14 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                 <div className={'dt-picker-box__footer_left'}>
                     {(!endYear || endYear === 'current' || endYear >= new Date().getFullYear()) &&
                         pickerType !== 'time' && (
-                            <button className={'dt-picker-button'} onClick={() => handleChange(new Date().getTime())}>
+                            <button className={'dt-picker-button'} onClick={() => handleChange(new Date().getTime())}  data-qa={'dt_btn-today'}>
                                 Сегодня
                             </button>
                         )}
                 </div>
                 <div className={'dt-picker-box__footer_right'}>
                     {pickerType !== 'time' && (
-                        <button className={'dt-picker-button'} onClick={handleReset}>
+                        <button className={'dt-picker-button'} onClick={handleReset} data-qa={'dt_btn-reset'}>
                             Сбросить
                         </button>
                     )}
@@ -80,6 +80,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                             if (!value) handleChange(new Date().getTime());
                             handleClose(true);
                         }}
+                        data-qa={'dt_btn-done'}
                     >
                         Готово
                     </button>

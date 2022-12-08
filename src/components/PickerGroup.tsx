@@ -97,6 +97,7 @@ const PickerGroup: React.FC<PickerGroupProps> = ({ type, items, selected, onChan
                             `dt-picker-item dt-picker-${type}__item` +
                             (item === selected ? ' dt-picker-item--selected' : '')
                         }
+                        data-qa={`dt_time-item-${index}`}
                     >
                         {item}
                     </div>
