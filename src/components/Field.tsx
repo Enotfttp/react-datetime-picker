@@ -5,9 +5,10 @@ interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
     pickerType: 'date' | 'time' | 'datetime';
     placeholder: string;
     meta?: { [k: string]: string | null };
+    dataQa?: string;
 }
 
-const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, ...props }) => {
+const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, dataQa, ...props }) => {
     let options: any;
     switch (pickerType) {
         case 'date':
@@ -69,7 +70,7 @@ const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, ...
                 className={'dt-input'}
                 onFocus={() => setState({ hasLabel: true, touched: false })}
                 onBlur={(e) => setState({ hasLabel: !!e.target.value?.length, touched: true })}
-                data-qa={'dt_input'}
+                data-qa={dataQa ? `dt_input-${dataQa}` : 'dt_input'}
             />
             <label htmlFor={props.name} className={'dt-input-label'}>
                 {placeholder}

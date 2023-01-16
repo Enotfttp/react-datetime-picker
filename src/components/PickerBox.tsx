@@ -13,6 +13,7 @@ interface PickerBoxProps {
     handleChange: (v: number) => void;
     handleClose: (v?: boolean) => void;
     handleReset: () => void;
+    dataQa?: string;
 }
 
 const PickerBox: React.FC<PickerBoxProps> = ({
@@ -25,6 +26,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
     endYear,
     value,
     position,
+    dataQa,
 }) => {
     const pickers: Array<'date' | 'time'> = pickerType === 'datetime' ? ['date', 'time'] : [pickerType];
     const start = startYear === 'current' ? new Date().getFullYear() : startYear;
@@ -56,6 +58,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                         onChange={handleChange}
                         startYear={start}
                         endYear={end}
+                        dataQa={dataQa}
                     />
                 ))}
             </div>
@@ -63,14 +66,22 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                 <div className={'dt-picker-box__footer_left'}>
                     {(!endYear || endYear === 'current' || endYear >= new Date().getFullYear()) &&
                         pickerType !== 'time' && (
-                            <button className={'dt-picker-button'} onClick={() => handleChange(new Date().getTime())}  data-qa={'dt_btn-today'}>
+                            <button
+                                className={'dt-picker-button'}
+                                onClick={() => handleChange(new Date().getTime())}
+                                data-qa={dataQa ? `dt_btn-today-${dataQa}` : 'dt_btn-today'}
+                            >
                                 Сегодня
                             </button>
                         )}
                 </div>
                 <div className={'dt-picker-box__footer_right'}>
                     {pickerType !== 'time' && (
-                        <button className={'dt-picker-button'} onClick={handleReset} data-qa={'dt_btn-reset'}>
+                        <button
+                            className={'dt-picker-button'}
+                            onClick={handleReset}
+                            data-qa={dataQa ? `dt_btn-reset-${dataQa}` : 'dt_btn-reset'}
+                        >
                             Сбросить
                         </button>
                     )}
@@ -80,7 +91,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                             if (!value) handleChange(new Date().getTime());
                             handleClose(true);
                         }}
-                        data-qa={'dt_btn-done'}
+                        data-qa={dataQa ? `dt_btn-done-${dataQa}` : 'dt_btn-done'}
                     >
                         Готово
                     </button>

@@ -18,6 +18,7 @@ interface DateTimePickerProps extends InputHTMLAttributes<HTMLInputElement> {
     onChange: (v: any) => void;
     onClose?: (v: any) => void;
     onOpen?: (v: any) => void;
+    dataQa?: string;
 }
 
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
@@ -31,6 +32,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     meta,
     startYear,
     endYear,
+    dataQa,
     ...props
 }) => {
     const [val, setVal] = React.useState<number | undefined>(value);
@@ -99,8 +101,15 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     return (
         <>
             <div className={'dt' + (className ? ' ' + className : '')} ref={ref}>
-                <div className={'dt-input-box'} onClick={(event) => handleOpen(event)}>
-                    <Field {...props} meta={meta} value={val} pickerType={pickerType} placeholder={placeholder} />
+                <div className={'dt-input-box'} onClick={(event) => handleOpen(event)} data-qa={dataQa}>
+                    <Field
+                        {...props}
+                        meta={meta}
+                        value={val}
+                        pickerType={pickerType}
+                        placeholder={placeholder}
+                        dataQa={dataQa}
+                    />
                     <div
                         className={
                             'dt-input-icon' +

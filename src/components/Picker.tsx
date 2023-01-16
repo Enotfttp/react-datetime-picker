@@ -1,6 +1,6 @@
 import React from 'react';
-import PickerGroup from './PickerGroup';
 import { getDaysOfMonth, getHoursList, getMinutesList, getMonthList, getYearsList } from '../utils';
+import PickerGroup from './PickerGroup';
 
 interface PickerProps {
     timestamp?: number;
@@ -8,6 +8,7 @@ interface PickerProps {
     startYear?: number;
     endYear?: number;
     onChange?: (v: any) => void;
+    dataQa?: string;
 }
 
 type GroupItemType = {
@@ -27,6 +28,7 @@ const Picker: React.FC<PickerProps> = ({
     startYear,
     endYear,
     onChange,
+    dataQa,
 }) => {
     let month: string = new Date(timestamp).toLocaleDateString('ru', { month: 'long' });
     month = month.charAt(0).toUpperCase() + month.substr(1);
