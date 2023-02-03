@@ -271,6 +271,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_close_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../images/close.svg */ "./src/images/close.svg");
 /* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Icon */ "./src/components/Icon.tsx");
 /* harmony import */ var _Picker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Picker */ "./src/components/Picker.tsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -285,7 +291,13 @@ var PickerBox = function PickerBox(_ref) {
     endYear = _ref.endYear,
     value = _ref.value,
     position = _ref.position,
-    dataQa = _ref.dataQa;
+    dataQa = _ref.dataQa,
+    _ref$isReset = _ref.isReset,
+    isReset = _ref$isReset === void 0 ? true : _ref$isReset;
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(isReset),
+    _React$useState2 = _slicedToArray(_React$useState, 2),
+    isShowReset = _React$useState2[0],
+    setShowReset = _React$useState2[1];
   var pickers = pickerType === 'datetime' ? ['date', 'time'] : [pickerType];
   var start = startYear === 'current' ? new Date().getFullYear() : startYear;
   var end = endYear === 'current' ? new Date().getFullYear() : endYear;
@@ -298,6 +310,9 @@ var PickerBox = function PickerBox(_ref) {
     if (endYear && endYear !== 'current' && endYear < nowYear) result = new Date(nowDate).setFullYear(endYear);
     return result;
   }, [startYear, endYear, value]);
+  react__WEBPACK_IMPORTED_MODULE_0___default().useEffect(function () {
+    if (pickerType === 'time') setShowReset(false);
+  }, [isReset, pickerType]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dt-picker-box dt-picker-box-".concat(position)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -337,7 +352,7 @@ var PickerBox = function PickerBox(_ref) {
     "data-qa": dataQa ? "dt_btn-today-".concat(dataQa) : 'dt_btn-today'
   }, "\u0421\u0435\u0433\u043E\u0434\u043D\u044F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'dt-picker-box__footer_right'
-  }, pickerType !== 'time' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  }, isShowReset && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: 'dt-picker-button',
     onClick: handleReset,
     "data-qa": dataQa ? "dt_btn-reset-".concat(dataQa) : 'dt_btn-reset'
@@ -506,7 +521,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_clock_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./images/clock.svg */ "./src/images/clock.svg");
 /* harmony import */ var _styles_dt_sass__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/dt.sass */ "./src/styles/dt.sass");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./src/utils/index.ts");
-var _excluded = ["value", "pickerType", "placeholder", "onChange", "onClose", "onOpen", "className", "meta", "startYear", "endYear", "dataQa"];
+var _excluded = ["value", "pickerType", "placeholder", "onChange", "onClose", "onOpen", "className", "meta", "startYear", "endYear", "isReset", "dataQa"];
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -535,6 +550,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
     meta = _ref.meta,
     startYear = _ref.startYear,
     endYear = _ref.endYear,
+    isReset = _ref.isReset,
     dataQa = _ref.dataQa,
     props = _objectWithoutProperties(_ref, _excluded);
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(value),
@@ -642,7 +658,8 @@ var DateTimePicker = function DateTimePicker(_ref) {
     handleReset: handleReset,
     placeholder: placeholder,
     pickerType: pickerType,
-    position: pos
+    position: pos,
+    isReset: isReset
   })), isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'dt-bg',
     onClick: function onClick() {

@@ -14,6 +14,7 @@ interface PickerBoxProps {
     handleClose: (v?: boolean) => void;
     handleReset: () => void;
     dataQa?: string;
+    isReset?: boolean;
 }
 
 const PickerBox: React.FC<PickerBoxProps> = ({
@@ -27,7 +28,9 @@ const PickerBox: React.FC<PickerBoxProps> = ({
     value,
     position,
     dataQa,
+    isReset = true,
 }) => {
+    const [isShowReset, setShowReset] = React.useState(isReset);
     const pickers: Array<'date' | 'time'> = pickerType === 'datetime' ? ['date', 'time'] : [pickerType];
     const start = startYear === 'current' ? new Date().getFullYear() : startYear;
     const end = endYear === 'current' ? new Date().getFullYear() : endYear;
@@ -41,6 +44,9 @@ const PickerBox: React.FC<PickerBoxProps> = ({
         if (endYear && endYear !== 'current' && endYear < nowYear) result = new Date(nowDate).setFullYear(endYear);
         return result;
     }, [startYear, endYear, value]);
+    React.useEffect(() => {
+        if (pickerType === 'time') setShowReset(false);
+    }, [isReset, pickerType]);
     return (
         <div className={`dt-picker-box dt-picker-box-${position}`}>
             <div className={'dt-picker-box__header'}>
@@ -76,7 +82,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                         )}
                 </div>
                 <div className={'dt-picker-box__footer_right'}>
-                    {pickerType !== 'time' && (
+                    {isShowReset && (
                         <button
                             className={'dt-picker-button'}
                             onClick={handleReset}

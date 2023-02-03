@@ -19,6 +19,7 @@ interface DateTimePickerProps extends InputHTMLAttributes<HTMLInputElement> {
     onClose?: (v: any) => void;
     onOpen?: (v: any) => void;
     dataQa?: string;
+    isReset?: boolean;
 }
 
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
@@ -32,6 +33,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     meta,
     startYear,
     endYear,
+    isReset,
     dataQa,
     ...props
 }) => {
@@ -135,6 +137,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                         placeholder={placeholder}
                         pickerType={pickerType}
                         position={pos}
+                        isReset={isReset}
                     />
                 )}
             </div>
