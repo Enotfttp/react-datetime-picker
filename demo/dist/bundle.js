@@ -11,7 +11,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _excluded = ["meta", "placeholder", "value", "pickerType", "dataQa"];
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+var _excluded = ["meta", "placeholder", "value", "pickerType", "dataQa", "localTimeZone"];
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -21,12 +22,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
+
 var Field = function Field(_ref) {
   var meta = _ref.meta,
     placeholder = _ref.placeholder,
     value = _ref.value,
     pickerType = _ref.pickerType,
     dataQa = _ref.dataQa,
+    localTimeZone = _ref.localTimeZone,
     props = _objectWithoutProperties(_ref, _excluded);
   var options;
   switch (pickerType) {
@@ -56,12 +59,12 @@ var Field = function Field(_ref) {
   var dateToString = function dateToString(timestamp) {
     if (value && value !== 0) {
       if (pickerType === 'time') {
-        return new Date(timestamp).toLocaleTimeString('ru', options);
+        if (localTimeZone) return new Date(timestamp).toLocaleTimeString('ru', options);else return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.dateToUTCString)('time', timestamp);
       } else {
-        return new Date(value).toLocaleDateString('ru', options);
+        if (localTimeZone) return new Date(value).toLocaleDateString('ru', options);else return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.dateToUTCString)('date', value);
       }
     } else if (pickerType === 'time') {
-      return new Date().toLocaleTimeString('ru', options);
+      if (localTimeZone) return new Date().toLocaleTimeString('ru', options);else return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.dateToUTCString)('time');
     } else {
       return '';
     }
@@ -170,53 +173,78 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Picker = function Picker(_ref) {
-  var _ref$timestamp = _ref.timestamp,
-    timestamp = _ref$timestamp === void 0 ? new Date().getTime() : _ref$timestamp,
+  var timestamp = _ref.timestamp,
     _ref$type = _ref.type,
     type = _ref$type === void 0 ? 'date' : _ref$type,
     startYear = _ref.startYear,
     endYear = _ref.endYear,
     onChange = _ref.onChange,
-    dataQa = _ref.dataQa;
-  var month = new Date(timestamp).toLocaleDateString('ru', {
-    month: 'long'
+    localTimeZone = _ref.localTimeZone;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localTimeZone ? new Date().getTime() : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.currentDateUTC)()),
+    _useState2 = _slicedToArray(_useState, 2),
+    curTimestamp = _useState2[0],
+    setCurimestamp = _useState2[1];
+  var month = new Date(curTimestamp).toLocaleDateString('ru', {
+    month: 'long',
+    timeZone: 'UTC'
   });
+  if (localTimeZone) {
+    month = new Date(curTimestamp).toLocaleDateString('ru', {
+      month: 'long'
+    });
+  }
   month = month.charAt(0).toUpperCase() + month.substr(1);
   var groups = {
     date: [{
       type: 'month',
-      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getMonthList)(),
+      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getMonthList)(localTimeZone),
       selected: month
     }, {
       type: 'days',
-      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getDaysOfMonth)(timestamp),
-      selected: new Date(timestamp).toLocaleDateString('ru', {
+      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getDaysOfMonth)(localTimeZone, curTimestamp),
+      selected: localTimeZone ? new Date(curTimestamp).toLocaleDateString('ru', {
         day: '2-digit'
+      }) : new Date(curTimestamp).toLocaleDateString('ru', {
+        day: '2-digit',
+        timeZone: 'UTC'
       })
     }, {
       type: 'year',
-      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getYearsList)(startYear, endYear),
-      selected: new Date(timestamp).toLocaleDateString('ru', {
+      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getYearsList)(localTimeZone, startYear, endYear),
+      selected: localTimeZone ? new Date(curTimestamp).toLocaleDateString('ru', {
         year: 'numeric'
+      }) : new Date(curTimestamp).toLocaleDateString('ru', {
+        year: 'numeric',
+        timeZone: 'UTC'
       })
     }],
     time: [{
       type: 'hours',
-      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getHoursList)(),
-      selected: new Date(timestamp).toLocaleTimeString('ru', {
+      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getHoursList)(localTimeZone),
+      selected: localTimeZone ? new Date(curTimestamp).toLocaleTimeString('ru', {
         hour: '2-digit'
+      }) : new Date(curTimestamp).toLocaleTimeString('ru', {
+        hour: '2-digit',
+        timeZone: 'UTC'
       })
     }, {
       type: 'minutes',
-      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getMinutesList)(),
-      selected: new Date(timestamp).toLocaleTimeString('ru', {
+      items: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getMinutesList)(localTimeZone),
+      selected: localTimeZone ? new Date(curTimestamp).toLocaleTimeString('ru', {
         hour: '2-digit',
         minute: '2-digit'
+      }).split(':')[1] : new Date(curTimestamp).toLocaleTimeString('ru', {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'UTC'
       }).split(':')[1]
     }]
   };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (timestamp) setCurimestamp(timestamp);
+  }, [timestamp, localTimeZone]);
   var handleChange = function handleChange(result) {
-    var returned = new Date(timestamp).getTime();
+    var returned = localTimeZone ? new Date(curTimestamp).getTime() : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.currentDateUTC)();
     var _result = _slicedToArray(result, 3),
       type = _result[0],
       value = _result[1],
@@ -224,19 +252,39 @@ var Picker = function Picker(_ref) {
     if (typeof index === 'number') {
       switch (type) {
         case 'month':
-          returned = new Date(timestamp).setMonth(index, new Date(timestamp).getDate());
+          if (localTimeZone) {
+            returned = new Date(curTimestamp).setMonth(index, new Date(curTimestamp).getDate());
+          } else {
+            returned = new Date(curTimestamp).setUTCMonth(index, new Date(curTimestamp).getUTCDate());
+          }
           break;
         case 'year':
-          returned = new Date(timestamp).setFullYear(Number(value), new Date(timestamp).getMonth(), new Date(timestamp).getDate());
+          if (localTimeZone) {
+            returned = new Date(curTimestamp).setFullYear(Number(value), new Date(curTimestamp).getMonth(), new Date(curTimestamp).getDate());
+          } else {
+            returned = new Date(curTimestamp).setUTCFullYear(Number(value), new Date(curTimestamp).getUTCMonth(), new Date(curTimestamp).getUTCDate());
+          }
           break;
         case 'days':
-          returned = new Date(timestamp).setDate(index + 1);
+          if (localTimeZone) {
+            returned = new Date(curTimestamp).setDate(index + 1);
+          } else {
+            returned = new Date(curTimestamp).setUTCDate(index + 1);
+          }
           break;
         case 'hours':
-          returned = new Date(timestamp).setHours(index);
+          if (localTimeZone) {
+            returned = new Date(curTimestamp).setHours(index);
+          } else {
+            returned = new Date(curTimestamp).setUTCHours(index);
+          }
           break;
         case 'minutes':
-          returned = new Date(timestamp).setMinutes(index);
+          if (localTimeZone) {
+            returned = new Date(curTimestamp).setMinutes(index);
+          } else {
+            returned = new Date(curTimestamp).setUTCMinutes(index);
+          }
           break;
       }
     }
@@ -269,14 +317,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _images_close_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../images/close.svg */ "./src/images/close.svg");
-/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Icon */ "./src/components/Icon.tsx");
-/* harmony import */ var _Picker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Picker */ "./src/components/Picker.tsx");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Icon */ "./src/components/Icon.tsx");
+/* harmony import */ var _Picker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Picker */ "./src/components/Picker.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -293,21 +343,22 @@ var PickerBox = function PickerBox(_ref) {
     position = _ref.position,
     dataQa = _ref.dataQa,
     _ref$showResetButton = _ref.showResetButton,
-    showResetButton = _ref$showResetButton === void 0 ? true : _ref$showResetButton;
+    showResetButton = _ref$showResetButton === void 0 ? true : _ref$showResetButton,
+    localTimeZone = _ref.localTimeZone;
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(showResetButton),
     _React$useState2 = _slicedToArray(_React$useState, 2),
     isShowReset = _React$useState2[0],
     setShowReset = _React$useState2[1];
   var pickers = pickerType === 'datetime' ? ['date', 'time'] : [pickerType];
-  var start = startYear === 'current' ? new Date().getFullYear() : startYear;
-  var end = endYear === 'current' ? new Date().getFullYear() : endYear;
+  var start = startYear === 'current' ? localTimeZone ? new Date().getFullYear() : new Date().getUTCFullYear() : startYear;
+  var end = endYear === 'current' ? localTimeZone ? new Date().getFullYear() : new Date().getUTCFullYear() : endYear;
   var timestamp = react__WEBPACK_IMPORTED_MODULE_0___default().useMemo(function () {
     var result;
-    var nowDate = value && value !== 0 ? value : new Date().getTime();
-    var nowYear = new Date(nowDate).getFullYear();
+    var nowDate = value && value !== 0 ? value : localTimeZone ? new Date().getTime() : (0,_utils__WEBPACK_IMPORTED_MODULE_2__.currentDateUTC)();
+    var nowYear = localTimeZone ? new Date(nowDate).getFullYear() : new Date(nowDate).getUTCFullYear();
     result = nowDate;
-    if (startYear && startYear !== 'current' && startYear > nowYear) result = new Date(nowDate).setFullYear(startYear);
-    if (endYear && endYear !== 'current' && endYear < nowYear) result = new Date(nowDate).setFullYear(endYear);
+    if (startYear && startYear !== 'current' && startYear > nowYear) result = localTimeZone ? new Date(nowDate).setFullYear(startYear) : new Date(nowDate).setUTCFullYear(startYear);
+    if (endYear && endYear !== 'current' && endYear < nowYear) result = localTimeZone ? new Date(nowDate).setFullYear(endYear) : new Date(nowDate).setUTCFullYear(endYear);
     return result;
   }, [startYear, endYear, value]);
   react__WEBPACK_IMPORTED_MODULE_0___default().useEffect(function () {
@@ -322,7 +373,7 @@ var PickerBox = function PickerBox(_ref) {
     onClick: function onClick() {
       return handleClose(false);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Icon__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Icon__WEBPACK_IMPORTED_MODULE_3__["default"], {
     id: _images_close_svg__WEBPACK_IMPORTED_MODULE_1__["default"].id,
     viewBox: _images_close_svg__WEBPACK_IMPORTED_MODULE_1__["default"].viewBox,
     name: 'small'
@@ -331,23 +382,23 @@ var PickerBox = function PickerBox(_ref) {
   }, placeholder)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'dt-picker-box__content'
   }, pickers.map(function (item) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Picker__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Picker__WEBPACK_IMPORTED_MODULE_4__["default"], {
       key: item,
       type: item,
       timestamp: timestamp,
       onChange: handleChange,
       startYear: start,
       endYear: end,
-      dataQa: dataQa
+      localTimeZone: localTimeZone
     });
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'dt-picker-box__footer'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'dt-picker-box__footer_left'
-  }, (!endYear || endYear === 'current' || endYear >= new Date().getFullYear()) && pickerType !== 'time' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  }, (!endYear || endYear === 'current' || endYear >= (localTimeZone ? new Date().getFullYear() : new Date().getUTCFullYear())) && pickerType !== 'time' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: 'dt-picker-button',
     onClick: function onClick() {
-      return handleChange(new Date().getTime());
+      return handleChange(localTimeZone ? new Date().getTime() : (0,_utils__WEBPACK_IMPORTED_MODULE_2__.currentDateUTC)());
     },
     "data-qa": dataQa ? "dt_btn-today-".concat(dataQa) : 'dt_btn-today'
   }, "\u0421\u0435\u0433\u043E\u0434\u043D\u044F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -359,7 +410,7 @@ var PickerBox = function PickerBox(_ref) {
   }, "\u0421\u0431\u0440\u043E\u0441\u0438\u0442\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: 'dt-picker-button dt-picker-button--blue',
     onClick: function onClick() {
-      if (!value) handleChange(new Date().getTime());
+      if (!value) handleChange(localTimeZone ? new Date().getTime() : (0,_utils__WEBPACK_IMPORTED_MODULE_2__.currentDateUTC)());
       handleClose(true);
     },
     "data-qa": dataQa ? "dt_btn-done-".concat(dataQa) : 'dt_btn-done'
@@ -521,7 +572,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_clock_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./images/clock.svg */ "./src/images/clock.svg");
 /* harmony import */ var _styles_dt_sass__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/dt.sass */ "./src/styles/dt.sass");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./src/utils/index.ts");
-var _excluded = ["value", "pickerType", "placeholder", "onChange", "onClose", "onOpen", "className", "meta", "startYear", "endYear", "showResetButton", "dataQa"];
+var _excluded = ["value", "pickerType", "placeholder", "onChange", "onClose", "onOpen", "className", "meta", "startYear", "endYear", "showResetButton", "dataQa", "localTimeZone"];
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -552,6 +603,8 @@ var DateTimePicker = function DateTimePicker(_ref) {
     endYear = _ref.endYear,
     showResetButton = _ref.showResetButton,
     dataQa = _ref.dataQa,
+    _ref$localTimeZone = _ref.localTimeZone,
+    localTimeZone = _ref$localTimeZone === void 0 ? false : _ref$localTimeZone,
     props = _objectWithoutProperties(_ref, _excluded);
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(value),
     _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -582,7 +635,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
   var handleClose = function handleClose(applyChanges) {
     if (typeof onClose === 'function') onClose(ref.current);
     if (applyChanges && typeof onChange === 'function') {
-      var date = val !== null && val !== void 0 ? val : new Date().getTime();
+      var date = val ? val : localTimeZone ? new Date().getTime() : (0,_utils__WEBPACK_IMPORTED_MODULE_7__.currentDateUTC)();
       setVal(date);
       onChange(date);
     }
@@ -593,7 +646,8 @@ var DateTimePicker = function DateTimePicker(_ref) {
       setPos('right');
     }
     if (!val) {
-      setVal(Date.now());
+      var date = localTimeZone ? Date.now() : (0,_utils__WEBPACK_IMPORTED_MODULE_7__.currentDateUTC)();
+      setVal(date);
     }
     setOpen(true);
     if (typeof onOpen === 'function') onOpen(ref.current);
@@ -640,7 +694,8 @@ var DateTimePicker = function DateTimePicker(_ref) {
     value: val,
     pickerType: pickerType,
     placeholder: placeholder,
-    dataQa: dataQa
+    dataQa: dataQa,
+    localTimeZone: localTimeZone
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'dt-input-icon' + (meta && meta.error ? ' dt-input-icon--error' : '') + (meta && !meta.error && !!val ? ' dt-input-icon--success' : '')
   }, pickerType === 'time' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Icon__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -659,7 +714,8 @@ var DateTimePicker = function DateTimePicker(_ref) {
     placeholder: placeholder,
     pickerType: pickerType,
     position: pos,
-    showResetButton: showResetButton
+    showResetButton: showResetButton,
+    localTimeZone: localTimeZone
   })), isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'dt-bg',
     onClick: function onClick() {
@@ -686,6 +742,8 @@ DateTimePicker.defaultProps = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "currentDateUTC": function() { return /* binding */ currentDateUTC; },
+/* harmony export */   "dateToUTCString": function() { return /* binding */ dateToUTCString; },
 /* harmony export */   "getDaysOfMonth": function() { return /* binding */ getDaysOfMonth; },
 /* harmony export */   "getHoursList": function() { return /* binding */ getHoursList; },
 /* harmony export */   "getMinutesList": function() { return /* binding */ getMinutesList; },
@@ -694,8 +752,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getScrollableParent": function() { return /* binding */ getScrollableParent; },
 /* harmony export */   "getYearsList": function() { return /* binding */ getYearsList; }
 /* harmony export */ });
-var getYearsList = function getYearsList(startYear, endYear) {
-  var now = new Date().getFullYear();
+var getYearsList = function getYearsList(timeZone, startYear, endYear) {
+  var now = new Date().getUTCFullYear();
+  if (timeZone) {
+    now = new Date().getFullYear();
+  }
   var period = 20,
     d = 0.5;
   if (startYear && endYear) {
@@ -716,48 +777,80 @@ var getYearsList = function getYearsList(startYear, endYear) {
     if (d) return String(now - period * d + i);else return String(now + i);
   });
 };
-var getMonthLength = function getMonthLength(timestamp) {
-  var year = new Date(timestamp).getFullYear();
-  var month = new Date(timestamp).getMonth();
+var getMonthLength = function getMonthLength(timeZone, timestamp) {
+  var year = new Date(timestamp).getUTCFullYear();
+  var month = new Date(timestamp).getUTCMonth();
+  if (timeZone) {
+    year = new Date(timestamp).getFullYear();
+    month = new Date(timestamp).getMonth();
+  }
   return 33 - new Date(year, month, 33).getDate();
 };
-var getMonthList = function getMonthList() {
+var getMonthList = function getMonthList(timeZone) {
   return Array.from({
     length: 12
   }, function (e, i) {
     var result = new Date(0, i + 1, 0).toLocaleDateString('ru', {
-      month: 'long'
+      month: 'long',
+      timeZone: 'UTC'
     });
+    if (timeZone) {
+      result = new Date(0, i + 1, 0).toLocaleDateString('ru', {
+        month: 'long'
+      });
+    }
     result = result.charAt(0).toUpperCase() + result.substr(1);
     return result;
   });
 };
-var getDaysOfMonth = function getDaysOfMonth(timestamp) {
+var getDaysOfMonth = function getDaysOfMonth(timeZone, timestamp) {
   return Array.from({
-    length: getMonthLength(timestamp)
+    length: getMonthLength(timeZone, timestamp)
   }, function (e, i) {
-    return new Date(0, 0, i + 1).toLocaleDateString('ru', {
-      day: '2-digit'
+    var result = new Date(0, 0, i + 1).toLocaleDateString('ru', {
+      day: '2-digit',
+      timeZone: 'UTC'
     });
+    if (timeZone) {
+      result = new Date(0, 0, i + 1).toLocaleDateString('ru', {
+        day: '2-digit'
+      });
+    }
+    return result;
   });
 };
-var getHoursList = function getHoursList() {
+var getHoursList = function getHoursList(timeZone) {
   return Array.from({
     length: 24
   }, function (e, i) {
-    return new Date(0, 0, 0, i, 0).toLocaleTimeString('ru', {
-      hour: '2-digit'
+    var result = new Date(0, 0, 0, i, 0).toLocaleTimeString('ru', {
+      hour: '2-digit',
+      timeZone: 'UTC'
     });
+    if (timeZone) {
+      result = new Date(0, 0, 0, i, 0).toLocaleTimeString('ru', {
+        hour: '2-digit'
+      });
+    }
+    return result;
   });
 };
-var getMinutesList = function getMinutesList() {
+var getMinutesList = function getMinutesList(timeZone) {
   return Array.from({
     length: 60
   }, function (e, i) {
-    return new Date(0, 0, 0, 0, i, 0).toLocaleTimeString('ru', {
+    var result = new Date(0, 0, 0, 0, i, 0).toLocaleTimeString('ru', {
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
+      timeZone: 'UTC'
     }).split(':')[1];
+    if (timeZone) {
+      result = new Date(0, 0, 0, 0, i, 0).toLocaleTimeString('ru', {
+        hour: '2-digit',
+        minute: '2-digit'
+      }).split(':')[1];
+    }
+    return result;
   });
 };
 var isScrollable = function isScrollable(el) {
@@ -769,6 +862,26 @@ var isScrollable = function isScrollable(el) {
 function getScrollableParent(el) {
   return !el || el === document.body ? document.body : isScrollable(el) ? el : getScrollableParent(el.parentNode);
 }
+var currentDateUTC = function currentDateUTC() {
+  return Date.now() - Math.abs(new Date().getTimezoneOffset());
+};
+var dateToUTCString = function dateToUTCString(type, timestamp) {
+  var result = '';
+  var currentDate = timestamp ? new Date(timestamp) : new Date();
+  if (type === 'time') {
+    var hours = "0".concat(currentDate.getUTCHours()).slice(-2);
+    var minutes = "0".concat(currentDate.getUTCMinutes()).slice(-2);
+    var seconds = "0".concat(currentDate.getUTCSeconds()).slice(-2);
+    result = "".concat(hours, ":").concat(minutes, ":").concat(seconds);
+  }
+  if (type === 'date') {
+    var year = "".concat(currentDate.getUTCFullYear());
+    var month = "0".concat(currentDate.getUTCMonth()).slice(-2);
+    var date = "0".concat(currentDate.getUTCDate()).slice(-2);
+    result = "".concat(year, ".").concat(month, ".").concat(date);
+  }
+  return result;
+};
 
 /***/ }),
 

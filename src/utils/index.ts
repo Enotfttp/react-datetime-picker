@@ -1,5 +1,8 @@
-export const getYearsList = (startYear: number | undefined, endYear: number | undefined): string[] => {
-    const now = new Date().getFullYear();
+export const getYearsList = (timeZone: boolean | undefined, startYear: number | undefined, endYear: number | undefined): string[] => {
+    let now = new Date().getUTCFullYear();
+    if (timeZone) {
+        now = new Date().getFullYear();
+    }
     let period = 20,
         d = 0.5;
     if (startYear && endYear) {
@@ -23,33 +26,54 @@ export const getYearsList = (startYear: number | undefined, endYear: number | un
         else return String(now + i);
     });
 };
-export const getMonthLength = (timestamp: number): number => {
-    const year = new Date(timestamp).getFullYear();
-    const month = new Date(timestamp).getMonth();
+export const getMonthLength = (timeZone: boolean | undefined, timestamp: number): number => {
+    let year = new Date(timestamp).getUTCFullYear();
+    let month = new Date(timestamp).getUTCMonth();
+    if (timeZone) {
+        year = new Date(timestamp).getFullYear();
+        month = new Date(timestamp).getMonth();
+    }
     return 33 - new Date(year, month, 33).getDate();
 };
-export const getMonthList = (): string[] => {
+export const getMonthList = (timeZone: boolean | undefined): string[] => {
     return Array.from({ length: 12 }, (e, i) => {
-        let result = new Date(0, i + 1, 0).toLocaleDateString('ru', { month: 'long' });
+        let result = new Date(0, i + 1, 0).toLocaleDateString('ru', { month: 'long', timeZone: 'UTC' });
+        if (timeZone) {
+            result = new Date(0, i + 1, 0).toLocaleDateString('ru', { month: 'long' });
+        }
         result = result.charAt(0).toUpperCase() + result.substr(1);
         return result;
     });
 };
-export const getDaysOfMonth = (timestamp: number): string[] => {
-    return Array.from({ length: getMonthLength(timestamp) }, (e, i) => {
-        return new Date(0, 0, i + 1).toLocaleDateString('ru', { day: '2-digit' });
+export const getDaysOfMonth = (timeZone: boolean | undefined, timestamp: number): string[] => {
+    return Array.from({ length: getMonthLength(timeZone, timestamp) }, (e, i) => {
+        let result = new Date(0, 0, i + 1).toLocaleDateString('ru', { day: '2-digit', timeZone: 'UTC' });
+        if (timeZone) {
+            result = new Date(0, 0, i + 1).toLocaleDateString('ru', { day: '2-digit' });
+        }
+        return result;
     });
 };
-export const getHoursList = (): string[] => {
+export const getHoursList = (timeZone: boolean | undefined): string[] => {
     return Array.from({ length: 24 }, (e, i) => {
-        return new Date(0, 0, 0, i, 0).toLocaleTimeString('ru', { hour: '2-digit' });
+        let result = new Date(0, 0, 0, i, 0).toLocaleTimeString('ru', { hour: '2-digit', timeZone: 'UTC' });
+        if (timeZone) {
+            result = new Date(0, 0, 0, i, 0).toLocaleTimeString('ru', { hour: '2-digit' });
+        }
+        return result;
     });
 };
-export const getMinutesList = (): string[] => {
+export const getMinutesList = (timeZone: boolean | undefined): string[] => {
     return Array.from({ length: 60 }, (e, i) => {
-        return new Date(0, 0, 0, 0, i, 0)
-            .toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+        let result = new Date(0, 0, 0, 0, i, 0)
+            .toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })
             .split(':')[1];
+        if (timeZone) {
+            result = new Date(0, 0, 0, 0, i, 0)
+                .toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+                .split(':')[1];
+        }
+        return result;
     });
 };
 
@@ -64,6 +88,29 @@ export function getScrollableParent(el: HTMLElement | null): HTMLElement | null 
     return !el || el === document.body
         ? document.body
         : isScrollable(el)
-        ? el
-        : getScrollableParent(el.parentNode as HTMLElement);
+            ? el
+            : getScrollableParent(el.parentNode as HTMLElement);
+}
+
+export const currentDateUTC = (): number => {
+    return Date.now() - Math.abs(new Date().getTimezoneOffset());
+};
+
+
+export const dateToUTCString = (type: 'time' | 'date', timestamp?: number): string => {
+    let result = '';
+    const currentDate = timestamp ? new Date(timestamp) : new Date();
+    if (type === 'time') {
+        const hours = `0${currentDate.getUTCHours()}`.slice(-2);
+        const minutes = `0${currentDate.getUTCMinutes()}`.slice(-2);
+        const seconds = `0${currentDate.getUTCSeconds()}`.slice(-2);
+        result = `${hours}:${minutes}:${seconds}`;
+    }
+    if (type === 'date') {
+        const year = `${currentDate.getUTCFullYear()}`;
+        const month = `0${currentDate.getUTCMonth()}`.slice(-2);
+        const date = `0${currentDate.getUTCDate()}`.slice(-2);
+        result = `${year}.${month}.${date}`
+    }
+    return result;
 }

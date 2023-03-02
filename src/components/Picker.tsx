@@ -1,5 +1,5 @@
-import React from 'react';
-import { getDaysOfMonth, getHoursList, getMinutesList, getMonthList, getYearsList } from '../utils';
+import React, { useEffect, useState } from 'react';
+import { currentDateUTC, getDaysOfMonth, getHoursList, getMinutesList, getMonthList, getYearsList } from '../utils';
 import PickerGroup from './PickerGroup';
 
 interface PickerProps {
@@ -8,7 +8,7 @@ interface PickerProps {
     startYear?: number;
     endYear?: number;
     onChange?: (v: any) => void;
-    dataQa?: string;
+    localTimeZone?: boolean;
 }
 
 type GroupItemType = {
@@ -23,71 +23,113 @@ type GroupType = {
 };
 
 const Picker: React.FC<PickerProps> = ({
-    timestamp = new Date().getTime(),
+    timestamp,
     type = 'date',
     startYear,
     endYear,
     onChange,
-    dataQa,
+    localTimeZone,
 }) => {
-    let month: string = new Date(timestamp).toLocaleDateString('ru', { month: 'long' });
+    const [curTimestamp, setCurimestamp] = useState(localTimeZone ? new Date().getTime() : currentDateUTC());
+    let month: string = new Date(curTimestamp).toLocaleDateString('ru', { month: 'long', timeZone: 'UTC' });
+    if (localTimeZone) {
+        month = new Date(curTimestamp).toLocaleDateString('ru', { month: 'long' });
+    }
     month = month.charAt(0).toUpperCase() + month.substr(1);
     const groups: GroupType = {
         date: [
             {
                 type: 'month',
-                items: getMonthList(),
+                items: getMonthList(localTimeZone),
                 selected: month,
             },
             {
                 type: 'days',
-                items: getDaysOfMonth(timestamp),
-                selected: new Date(timestamp).toLocaleDateString('ru', { day: '2-digit' }),
+                items: getDaysOfMonth(localTimeZone, curTimestamp),
+                selected: localTimeZone
+                    ? new Date(curTimestamp).toLocaleDateString('ru', { day: '2-digit' })
+                    : new Date(curTimestamp).toLocaleDateString('ru', { day: '2-digit', timeZone: 'UTC' }),
             },
             {
                 type: 'year',
-                items: getYearsList(startYear, endYear),
-                selected: new Date(timestamp).toLocaleDateString('ru', { year: 'numeric' }),
+                items: getYearsList(localTimeZone, startYear, endYear),
+                selected: localTimeZone
+                    ? new Date(curTimestamp).toLocaleDateString('ru', { year: 'numeric' })
+                    : new Date(curTimestamp).toLocaleDateString('ru', { year: 'numeric', timeZone: 'UTC' }),
             },
         ],
         time: [
             {
                 type: 'hours',
-                items: getHoursList(),
-                selected: new Date(timestamp).toLocaleTimeString('ru', { hour: '2-digit' }),
+                items: getHoursList(localTimeZone),
+                selected: localTimeZone
+                    ? new Date(curTimestamp).toLocaleTimeString('ru', { hour: '2-digit' })
+                    : new Date(curTimestamp).toLocaleTimeString('ru', { hour: '2-digit', timeZone: 'UTC' }),
             },
             {
                 type: 'minutes',
-                items: getMinutesList(),
-                selected: new Date(timestamp)
-                    .toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
-                    .split(':')[1],
+                items: getMinutesList(localTimeZone),
+                selected: localTimeZone
+                    ? new Date(curTimestamp)
+                          .toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+                          .split(':')[1]
+                    : new Date(curTimestamp)
+                          .toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })
+                          .split(':')[1],
             },
         ],
     };
+    useEffect(() => {
+        if (timestamp) setCurimestamp(timestamp);
+    }, [timestamp, localTimeZone]);
     const handleChange = (result: Array<string | number>) => {
-        let returned: number = new Date(timestamp).getTime();
+        let returned: number = localTimeZone ? new Date(curTimestamp).getTime() : currentDateUTC();
+
         const [type, value, index] = result;
         if (typeof index === 'number') {
             switch (type) {
                 case 'month':
-                    returned = new Date(timestamp).setMonth(index, new Date(timestamp).getDate());
+                    if (localTimeZone) {
+                        returned = new Date(curTimestamp).setMonth(index, new Date(curTimestamp).getDate());
+                    } else {
+                        returned = new Date(curTimestamp).setUTCMonth(index, new Date(curTimestamp).getUTCDate());
+                    }
                     break;
                 case 'year':
-                    returned = new Date(timestamp).setFullYear(
-                        Number(value),
-                        new Date(timestamp).getMonth(),
-                        new Date(timestamp).getDate()
-                    );
+                    if (localTimeZone) {
+                        returned = new Date(curTimestamp).setFullYear(
+                            Number(value),
+                            new Date(curTimestamp).getMonth(),
+                            new Date(curTimestamp).getDate()
+                        );
+                    } else {
+                        returned = new Date(curTimestamp).setUTCFullYear(
+                            Number(value),
+                            new Date(curTimestamp).getUTCMonth(),
+                            new Date(curTimestamp).getUTCDate()
+                        );
+                    }
                     break;
                 case 'days':
-                    returned = new Date(timestamp).setDate(index + 1);
+                    if (localTimeZone) {
+                        returned = new Date(curTimestamp).setDate(index + 1);
+                    } else {
+                        returned = new Date(curTimestamp).setUTCDate(index + 1);
+                    }
                     break;
                 case 'hours':
-                    returned = new Date(timestamp).setHours(index);
+                    if (localTimeZone) {
+                        returned = new Date(curTimestamp).setHours(index);
+                    } else {
+                        returned = new Date(curTimestamp).setUTCHours(index);
+                    }
                     break;
                 case 'minutes':
-                    returned = new Date(timestamp).setMinutes(index);
+                    if (localTimeZone) {
+                        returned = new Date(curTimestamp).setMinutes(index);
+                    } else {
+                        returned = new Date(curTimestamp).setUTCMinutes(index);
+                    }
                     break;
             }
         }

@@ -5,7 +5,7 @@ import PickerBox from './components/PickerBox';
 import calendar from './images/calendar.svg';
 import clock from './images/clock.svg';
 import './styles/dt.sass';
-import { getScrollableParent } from './utils';
+import { currentDateUTC, getScrollableParent } from './utils';
 
 interface DateTimePickerProps extends InputHTMLAttributes<HTMLInputElement> {
     value?: number;
@@ -20,6 +20,7 @@ interface DateTimePickerProps extends InputHTMLAttributes<HTMLInputElement> {
     onOpen?: (v: any) => void;
     dataQa?: string;
     showResetButton?: boolean;
+    localTimeZone?: boolean;
 }
 
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
@@ -35,6 +36,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     endYear,
     showResetButton,
     dataQa,
+    localTimeZone = false,
     ...props
 }) => {
     const [val, setVal] = React.useState<number | undefined>(value);
@@ -57,7 +59,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     const handleClose = (applyChanges?: boolean) => {
         if (typeof onClose === 'function') onClose(ref.current);
         if (applyChanges && typeof onChange === 'function') {
-            const date = val ?? new Date().getTime();
+            const date = val ? val : localTimeZone ? new Date().getTime() : currentDateUTC();
             setVal(date);
             onChange(date);
         }
@@ -68,7 +70,8 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
             setPos('right');
         }
         if (!val) {
-            setVal(Date.now());
+            const date = localTimeZone ? Date.now() : currentDateUTC();
+            setVal(date);
         }
         setOpen(true);
         if (typeof onOpen === 'function') onOpen(ref.current);
@@ -111,6 +114,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                         pickerType={pickerType}
                         placeholder={placeholder}
                         dataQa={dataQa}
+                        localTimeZone={localTimeZone}
                     />
                     <div
                         className={
@@ -138,6 +142,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
                         pickerType={pickerType}
                         position={pos}
                         showResetButton={showResetButton}
+                        localTimeZone={localTimeZone}
                     />
                 )}
             </div>

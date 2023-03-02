@@ -1,5 +1,6 @@
 import React from 'react';
 import close from '../images/close.svg';
+import { currentDateUTC } from '../utils';
 import Icon from './Icon';
 import Picker from './Picker';
 
@@ -15,6 +16,7 @@ interface PickerBoxProps {
     handleReset: () => void;
     dataQa?: string;
     showResetButton?: boolean;
+    localTimeZone?: boolean;
 }
 
 const PickerBox: React.FC<PickerBoxProps> = ({
@@ -29,19 +31,25 @@ const PickerBox: React.FC<PickerBoxProps> = ({
     position,
     dataQa,
     showResetButton = true,
+    localTimeZone,
 }) => {
     const [isShowReset, setShowReset] = React.useState(showResetButton);
     const pickers: Array<'date' | 'time'> = pickerType === 'datetime' ? ['date', 'time'] : [pickerType];
-    const start = startYear === 'current' ? new Date().getFullYear() : startYear;
-    const end = endYear === 'current' ? new Date().getFullYear() : endYear;
+    const start =
+        startYear === 'current' ? (localTimeZone ? new Date().getFullYear() : new Date().getUTCFullYear()) : startYear;
+    const end =
+        endYear === 'current' ? (localTimeZone ? new Date().getFullYear() : new Date().getUTCFullYear()) : endYear;
     const timestamp = React.useMemo(() => {
         let result: number;
-        const nowDate = value && value !== 0 ? value : new Date().getTime();
-        const nowYear = new Date(nowDate).getFullYear();
+        const nowDate = value && value !== 0 ? value : localTimeZone ? new Date().getTime() : currentDateUTC();
+        const nowYear = localTimeZone ? new Date(nowDate).getFullYear() : new Date(nowDate).getUTCFullYear();
         result = nowDate;
         if (startYear && startYear !== 'current' && startYear > nowYear)
-            result = new Date(nowDate).setFullYear(startYear);
-        if (endYear && endYear !== 'current' && endYear < nowYear) result = new Date(nowDate).setFullYear(endYear);
+            result = localTimeZone
+                ? new Date(nowDate).setFullYear(startYear)
+                : new Date(nowDate).setUTCFullYear(startYear);
+        if (endYear && endYear !== 'current' && endYear < nowYear)
+            result = localTimeZone ? new Date(nowDate).setFullYear(endYear) : new Date(nowDate).setUTCFullYear(endYear);
         return result;
     }, [startYear, endYear, value]);
     React.useEffect(() => {
@@ -64,17 +72,19 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                         onChange={handleChange}
                         startYear={start}
                         endYear={end}
-                        dataQa={dataQa}
+                        localTimeZone={localTimeZone}
                     />
                 ))}
             </div>
             <div className={'dt-picker-box__footer'}>
                 <div className={'dt-picker-box__footer_left'}>
-                    {(!endYear || endYear === 'current' || endYear >= new Date().getFullYear()) &&
+                    {(!endYear ||
+                        endYear === 'current' ||
+                        endYear >= (localTimeZone ? new Date().getFullYear() : new Date().getUTCFullYear())) &&
                         pickerType !== 'time' && (
                             <button
                                 className={'dt-picker-button'}
-                                onClick={() => handleChange(new Date().getTime())}
+                                onClick={() => handleChange(localTimeZone ? new Date().getTime() : currentDateUTC())}
                                 data-qa={dataQa ? `dt_btn-today-${dataQa}` : 'dt_btn-today'}
                             >
                                 Сегодня
@@ -94,7 +104,7 @@ const PickerBox: React.FC<PickerBoxProps> = ({
                     <button
                         className={'dt-picker-button dt-picker-button--blue'}
                         onClick={() => {
-                            if (!value) handleChange(new Date().getTime());
+                            if (!value) handleChange(localTimeZone ? new Date().getTime() : currentDateUTC());
                             handleClose(true);
                         }}
                         data-qa={dataQa ? `dt_btn-done-${dataQa}` : 'dt_btn-done'}

@@ -1,4 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
+import { dateToUTCString } from '../utils';
 
 interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
     value: number | undefined;
@@ -6,9 +7,10 @@ interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
     placeholder: string;
     meta?: { [k: string]: string | null };
     dataQa?: string;
+    localTimeZone?: boolean;
 }
 
-const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, dataQa, ...props }) => {
+const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, dataQa, localTimeZone, ...props }) => {
     let options: any;
     switch (pickerType) {
         case 'date':
@@ -34,15 +36,18 @@ const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, dat
             };
             break;
     }
-    const dateToString = (timestamp: number) => {
+    const dateToString = (timestamp: number): string => {
         if (value && value !== 0) {
             if (pickerType === 'time') {
-                return new Date(timestamp).toLocaleTimeString('ru', options);
+                if (localTimeZone) return new Date(timestamp).toLocaleTimeString('ru', options);
+                else return dateToUTCString('time', timestamp);
             } else {
-                return new Date(value).toLocaleDateString('ru', options);
+                if (localTimeZone) return new Date(value).toLocaleDateString('ru', options);
+                else return dateToUTCString('date', value);
             }
         } else if (pickerType === 'time') {
-            return new Date().toLocaleTimeString('ru', options);
+            if (localTimeZone) return new Date().toLocaleTimeString('ru', options);
+            else return dateToUTCString('time');
         } else {
             return '';
         }
