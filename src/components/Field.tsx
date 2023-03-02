@@ -1,5 +1,4 @@
 import React, { InputHTMLAttributes } from 'react';
-import { dateToUTCString } from '../utils';
 
 interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
     value: number | undefined;
@@ -40,14 +39,14 @@ const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, dat
         if (value && value !== 0) {
             if (pickerType === 'time') {
                 if (localTimeZone) return new Date(timestamp).toLocaleTimeString('ru', options);
-                else return dateToUTCString('time', timestamp);
+                else return new Date(timestamp).toLocaleTimeString('ru', { timeZone: 'UTC', ...options });
             } else {
                 if (localTimeZone) return new Date(value).toLocaleDateString('ru', options);
-                else return dateToUTCString('date', value);
+                else return new Date(value).toLocaleDateString('ru', { timeZone: 'UTC', ...options });
             }
         } else if (pickerType === 'time') {
             if (localTimeZone) return new Date().toLocaleTimeString('ru', options);
-            else return dateToUTCString('time');
+            else return new Date().toLocaleTimeString('ru', { timeZone: 'UTC', ...options });
         } else {
             return '';
         }

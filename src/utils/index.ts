@@ -37,7 +37,7 @@ export const getMonthLength = (timeZone: boolean | undefined, timestamp: number)
 };
 export const getMonthList = (timeZone: boolean | undefined): string[] => {
     return Array.from({ length: 12 }, (e, i) => {
-        let result = new Date(0, i + 1, 0).toLocaleDateString('ru', { month: 'long', timeZone: 'UTC' });
+        let result: any = new Date(0, i + 1, 0).toLocaleDateString('ru', { month: 'long', timeZone: 'UTC' });
         if (timeZone) {
             result = new Date(0, i + 1, 0).toLocaleDateString('ru', { month: 'long' });
         }
@@ -96,21 +96,3 @@ export const currentDateUTC = (): number => {
     return Date.now() - Math.abs(new Date().getTimezoneOffset());
 };
 
-
-export const dateToUTCString = (type: 'time' | 'date', timestamp?: number): string => {
-    let result = '';
-    const currentDate = timestamp ? new Date(timestamp) : new Date();
-    if (type === 'time') {
-        const hours = `0${currentDate.getUTCHours()}`.slice(-2);
-        const minutes = `0${currentDate.getUTCMinutes()}`.slice(-2);
-        const seconds = `0${currentDate.getUTCSeconds()}`.slice(-2);
-        result = `${hours}:${minutes}:${seconds}`;
-    }
-    if (type === 'date') {
-        const year = `${currentDate.getUTCFullYear()}`;
-        const month = `0${currentDate.getUTCMonth()}`.slice(-2);
-        const date = `0${currentDate.getUTCDate()}`.slice(-2);
-        result = `${year}.${month}.${date}`
-    }
-    return result;
-}
