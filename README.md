@@ -47,6 +47,9 @@ import DateTimePicker from '@d_lepahin/react-datetime-picker';
 | onChange    | function | вызывается при выборе даты, возвращает выбранную дату в миллисекундах                                                                                                                     | `(val) => console.log(val)`                                                              |
 | onOpen      | function | вызывается при открытии списка даты/времени                                                                                                                                               |                                                                                          |
 | onClose     | function | вызывается при закрытии списка даты/времени                                                                                                                                               |                                                                                          |
+| localTimeZone     | boolean | Меняется время отображения в UTC или LocalTimeZone. Начальное значение false    
+                                              |                                                                                          |
+| showResetButton     | boolean | Отображение кнопки сбросить                                                                                                                                                          |                                                                                          |
 
 ## Лицензия
 
