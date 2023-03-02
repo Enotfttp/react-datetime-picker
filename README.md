@@ -51,7 +51,7 @@ import DateTimePicker from '@d_lepahin/react-datetime-picker';
 | localTimeZone     | boolean | Меняется время отображения в UTC или LocalTimeZone. Начальное значение false    
                                               |                                                                                          |
 | showResetButton     | boolean | Отображение кнопки сбросить                                                                                           
-                                          |                                                                                          |
+
    
 
 ## Лицензия
