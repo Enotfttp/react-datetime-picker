@@ -62,7 +62,7 @@ const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, dat
             className={
                 'dt-input-wrapper' +
                 (state.hasLabel ? ' dt-input-wrapper--filled' : '') +
-                (meta && meta.error && state.touched ? ' error' : '') +
+                (meta && meta.error ? ' error' : '') +
                 (meta && !meta.error && !!val.length ? ' success' : '') +
                 (props.className ? ' ' + props.className : '')
             }
@@ -79,7 +79,7 @@ const Field: React.FC<FieldProps> = ({ meta, placeholder, value, pickerType, dat
             <label htmlFor={props.name} className={'dt-input-label'}>
                 {placeholder}
             </label>
-            {meta && meta.error && state.touched && <div className={'dt-input-error'}>{meta.error}</div>}
+            {meta && meta.error && <div className={'dt-input-error'}>{meta.error}</div>}
         </div>
     );
 };
