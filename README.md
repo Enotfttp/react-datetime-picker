@@ -50,7 +50,6 @@ import DateTimePicker from '@d_lepahin/react-datetime-picker';
 | onClose     | function | вызывается при закрытии списка даты/времени                                                                                                                                               |                                                                                          |
 | localTimeZone     | boolean | Меняется время отображения в UTC или LocalTimeZone. Начальное значение false    
 | showResetButton     | boolean | Отображение кнопки сбросить        
-                                              |                                                                                          |
                                               
                                               
 
