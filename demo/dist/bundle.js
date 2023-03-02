@@ -762,10 +762,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getYearsList": function() { return /* binding */ getYearsList; }
 /* harmony export */ });
 var getYearsList = function getYearsList(timeZone, startYear, endYear) {
-  var now = new Date().getUTCFullYear();
-  if (timeZone) {
-    now = new Date().getFullYear();
-  }
+  var now = new Date().getFullYear();
   var period = 20,
     d = 0.5;
   if (startYear && endYear) {
@@ -787,12 +784,8 @@ var getYearsList = function getYearsList(timeZone, startYear, endYear) {
   });
 };
 var getMonthLength = function getMonthLength(timeZone, timestamp) {
-  var year = new Date(timestamp).getUTCFullYear();
-  var month = new Date(timestamp).getUTCMonth();
-  if (timeZone) {
-    year = new Date(timestamp).getFullYear();
-    month = new Date(timestamp).getMonth();
-  }
+  var year = new Date(timestamp).getFullYear();
+  var month = new Date(timestamp).getMonth();
   return 33 - new Date(year, month, 33).getDate();
 };
 var getMonthList = function getMonthList(timeZone) {
@@ -800,14 +793,8 @@ var getMonthList = function getMonthList(timeZone) {
     length: 12
   }, function (e, i) {
     var result = new Date(0, i + 1, 0).toLocaleDateString('ru', {
-      month: 'long',
-      timeZone: 'UTC'
+      month: 'long'
     });
-    if (timeZone) {
-      result = new Date(0, i + 1, 0).toLocaleDateString('ru', {
-        month: 'long'
-      });
-    }
     result = result.charAt(0).toUpperCase() + result.substr(1);
     return result;
   });
@@ -817,14 +804,8 @@ var getDaysOfMonth = function getDaysOfMonth(timeZone, timestamp) {
     length: getMonthLength(timeZone, timestamp)
   }, function (e, i) {
     var result = new Date(0, 0, i + 1).toLocaleDateString('ru', {
-      day: '2-digit',
-      timeZone: 'UTC'
+      day: '2-digit'
     });
-    if (timeZone) {
-      result = new Date(0, 0, i + 1).toLocaleDateString('ru', {
-        day: '2-digit'
-      });
-    }
     return result;
   });
 };
@@ -833,14 +814,8 @@ var getHoursList = function getHoursList(timeZone) {
     length: 24
   }, function (e, i) {
     var result = new Date(0, 0, 0, i, 0).toLocaleTimeString('ru', {
-      hour: '2-digit',
-      timeZone: 'UTC'
+      hour: '2-digit'
     });
-    if (timeZone) {
-      result = new Date(0, 0, 0, i, 0).toLocaleTimeString('ru', {
-        hour: '2-digit'
-      });
-    }
     return result;
   });
 };
@@ -850,15 +825,8 @@ var getMinutesList = function getMinutesList(timeZone) {
   }, function (e, i) {
     var result = new Date(0, 0, 0, 0, i, 0).toLocaleTimeString('ru', {
       hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'UTC'
+      minute: '2-digit'
     }).split(':')[1];
-    if (timeZone) {
-      result = new Date(0, 0, 0, 0, i, 0).toLocaleTimeString('ru', {
-        hour: '2-digit',
-        minute: '2-digit'
-      }).split(':')[1];
-    }
     return result;
   });
 };
