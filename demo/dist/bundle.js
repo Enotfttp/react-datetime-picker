@@ -292,9 +292,9 @@ var PickerBox = function PickerBox(_ref) {
     value = _ref.value,
     position = _ref.position,
     dataQa = _ref.dataQa,
-    _ref$isReset = _ref.isReset,
-    isReset = _ref$isReset === void 0 ? true : _ref$isReset;
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(isReset),
+    _ref$showResetButton = _ref.showResetButton,
+    showResetButton = _ref$showResetButton === void 0 ? true : _ref$showResetButton;
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(showResetButton),
     _React$useState2 = _slicedToArray(_React$useState, 2),
     isShowReset = _React$useState2[0],
     setShowReset = _React$useState2[1];
@@ -312,7 +312,7 @@ var PickerBox = function PickerBox(_ref) {
   }, [startYear, endYear, value]);
   react__WEBPACK_IMPORTED_MODULE_0___default().useEffect(function () {
     if (pickerType === 'time') setShowReset(false);
-  }, [isReset, pickerType]);
+  }, [showResetButton, pickerType]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dt-picker-box dt-picker-box-".concat(position)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -521,7 +521,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_clock_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./images/clock.svg */ "./src/images/clock.svg");
 /* harmony import */ var _styles_dt_sass__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/dt.sass */ "./src/styles/dt.sass");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./src/utils/index.ts");
-var _excluded = ["value", "pickerType", "placeholder", "onChange", "onClose", "onOpen", "className", "meta", "startYear", "endYear", "isReset", "dataQa"];
+var _excluded = ["value", "pickerType", "placeholder", "onChange", "onClose", "onOpen", "className", "meta", "startYear", "endYear", "showResetButton", "dataQa"];
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -550,7 +550,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
     meta = _ref.meta,
     startYear = _ref.startYear,
     endYear = _ref.endYear,
-    isReset = _ref.isReset,
+    showResetButton = _ref.showResetButton,
     dataQa = _ref.dataQa,
     props = _objectWithoutProperties(_ref, _excluded);
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(value),
@@ -659,7 +659,7 @@ var DateTimePicker = function DateTimePicker(_ref) {
     placeholder: placeholder,
     pickerType: pickerType,
     position: pos,
-    isReset: isReset
+    showResetButton: showResetButton
   })), isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'dt-bg',
     onClick: function onClick() {
